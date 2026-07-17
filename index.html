@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FCN固定配息之境外結構型商品試算工具</title>
+    <title>FCN「不成交只領息」自訂客製化試算工具</title>
     <script>
-        // 【安全防護】嚴格檢查 HTTP 來源網頁 (Referrer) 驗證機制 (同步更新至入口網站 V3)
+        // 【安全防護】嚴格檢查 HTTP 來源網頁 (Referrer) 驗證機制 (已更新至 V3)
         var allowedReferrer = "https://b89tiger009.github.io/Portal_web_encV3/";
         (function() {
             var currentReferrer = document.referrer;
@@ -108,38 +108,11 @@
             font-weight: bold;
         }
 
-        /* 逐月遞減設定區樣式 */
-        .step-down-container {
-            grid-column: span 2;
-            background-color: #f8fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            padding: 15px;
-            display: none;
-            margin-top: -10px;
-            margin-bottom: 15px;
-        }
-        .step-down-title {
-            font-size: 13px;
-            font-weight: bold;
-            color: #0f4c81;
-            margin-bottom: 10px;
-        }
-        .step-down-grid {
+        /* 💡 新版雙欄出場價橫列佈局 */
+        .trigger-out-row {
             display: grid;
-            grid-template-columns: repeat(6, 1fr);
-            gap: 10px;
-        }
-        .step-field {
-            display: flex;
-            flex-direction: column;
-            font-size: 12px;
-        }
-        .step-field input {
-            padding: 6px;
-            font-size: 13px;
-            text-align: center;
-            margin-top: 4px;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
         }
 
         .ticker-section-title {
@@ -194,7 +167,7 @@
             min-height: 115px;
         }
 
-        /* ─── V19.4 SVG 精確銜接與穿透分流時序流程圖 ─── */
+        /* ─── SVG 精確銜接與穿透分流時序流程圖 ─── */
         .flow-diagram-container {
             background-color: #ffffff;
             border: 1px solid #e2e8f0;
@@ -211,18 +184,16 @@
             padding-top: 10px;
             padding-bottom: 30px;
         }
-        
-        /* 橫向主幹線：整合修改，拉長至 772px 達成與分流垂直黑線的無縫串接 */
+        /* 橫向主幹線：往右拉長至 772px 完美對接 SVG */
         .flow-main-axis {
             position: absolute;
             top: 245px;
             left: 1%;
-            width: 825px; 
+            width: 772px; 
             height: 4px;
             background-color: #000000;
             z-index: 1;
         }
-        
         .flow-lead-line {
             position: absolute;
             top: 185px;
@@ -231,7 +202,6 @@
             background-color: #000000;
             z-index: 1;
         }
-        
         .flow-axis-dot {
             position: absolute;
             top: 241px;
@@ -250,7 +220,7 @@
             font-size: 13px;
             line-height: 1.6;
             width: 195px;
-            min-height: 175px; 
+            min-height: 175px;
             box-shadow: 0 4px 14px rgba(0,0,0,0.04);
             box-sizing: border-box;
             z-index: 2;
@@ -269,7 +239,7 @@
         .box-ko { border: 2px solid #ff9800; margin-right: 12px; }
         .box-end { border: 2px solid #000000; margin-right: 12px; }
 
-        /* SVG 核心區容器：維持物理垂直對齊(margin-top: 135px) */
+        /* SVG 核心區容器：維持物理垂直對齊 */
         .flow-svg-arrow-container {
             width: 45px;
             height: 220px;
@@ -285,7 +255,7 @@
             display: block;
         }
 
-        /* 右側成果容器 */
+        /* 右側成果卡片容器 */
         .flow-right-outcomes-wrapper {
             display: flex;
             flex-direction: column;
@@ -298,7 +268,6 @@
             flex-shrink: 0;
         }
 
-        /* 成果字卡樣式 */
         .outcome-card {
             background-color: #ffffff;
             border-radius: 16px;
@@ -319,7 +288,7 @@
             font-weight: bold;
             font-size: 16px;
             display: block;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
         }
         
         .border-green-outcome { border-color: #22c55e; }
@@ -374,8 +343,8 @@
 <body>
 
 <div class="container">
-    <h1>FCN固定配息之境外結構型商品試算工具</h1>
-    <div class="subtitle">整合 Firebase 操作者驗證與 Google Apps Script 試算表直連寫入技術</div>
+    <h1>FCN「不成交只領息」自訂客製化試算工具</h1>
+    <div class="subtitle">修正版 V20.0：簡化固定逐月遞減區塊、實裝專屬 GAS API、確保報表與圖表完全連動</div>
 
     <!-- 參數輸入區 -->
     <div class="input-grid">
@@ -401,7 +370,7 @@
 
         <div class="form-group">
             <label for="period">投資期滿時間 (月)</label>
-            <select id="period" onchange="toggleStepDownPanel(); runAllCalculations();">
+            <select id="period" onchange="runAllCalculations();">
                 <option value="1">1 個月</option>
                 <option value="2">2 個月</option>
                 <option value="3">3 個月</option>
@@ -427,20 +396,24 @@
             <input type="number" id="knockin-pct" value="60" min="0" max="100" step="1" oninput="runAllCalculations()">
             <div id="err-knockin" class="error-text">❌ 下限價範圍必須介於 0 至 100 之間</div>
         </div>
-        <div class="form-group">
-            <label for="trigger-out-pct">
-                出場價 (%) 
-                <label class="checkbox-label">
-                    <input type="checkbox" id="enable-step-down" onchange="toggleStepDownPanel(); runAllCalculations();"> 手動設定逐月遞減 %
-                </label>
-            </label>
-            <input type="number" id="trigger-out-pct" value="90" min="0" max="150" step="1" oninput="runAllCalculations(); autoFillStepDown();">
-            <div id="err-trigger-out" class="error-text">❌ 出場價範圍必須介於 0 至 150 之間</div>
-        </div>
 
-        <div id="step-down-panel" class="step-down-container">
-            <div class="step-down-title">📊 請手動設定第 2 個月至滿期各月份的出場價觀察比例 (%)：</div>
-            <div id="step-down-fields-grid" class="step-down-grid"></div>
+        <!-- 💡 2. 修正：一體化出場價與固定值遞減橫列 (緊隨出場價後方) -->
+        <div class="form-group">
+            <div class="trigger-out-row">
+                <div>
+                    <label for="trigger-out-pct">出場價 (%)</label>
+                    <input type="number" id="trigger-out-pct" value="100" min="0" max="150" step="1" style="width:100%;" oninput="runAllCalculations();">
+                </div>
+                <div>
+                    <label for="step-down-val">
+                        <label class="checkbox-label" style="margin-left:0; font-weight:bold; color:#2c3e50; font-size:14px;">
+                            <input type="checkbox" id="enable-step-down" onchange="runAllCalculations();"> 逐月遞減(%)
+                        </label>
+                    </label>
+                    <input type="number" id="step-down-val" value="5" min="0" max="50" step="0.5" style="width:100%;" oninput="runAllCalculations();">
+                </div>
+            </div>
+            <div id="err-trigger-out" class="error-text">❌ 出場價範圍必須介於 0 至 150 之間</div>
         </div>
     </div>
 
@@ -479,7 +452,7 @@
         </div>
     </div>
 
-    <!-- ─── 完美融合穿透線與修正路徑之時序圖 ─── -->
+    <!-- SVG 向量分流時序流程圖 -->
     <div class="ticker-section-title">📊 FCN 產品架構與存續條件動態時序圖</div>
     <div class="flow-diagram-container">
         <div class="flow-timeline-wrapper">
@@ -523,7 +496,7 @@
             <div class="flow-lead-line" style="left: 726px;"></div>
             <div class="flow-axis-dot" style="left: 726px;"></div>
 
-            <!-- SVG 核心區：精確擷取修正後的垂直對齊路徑，移除水平重疊段 -->
+            <!-- SVG 核心區：精確對齊之垂直折線 -->
             <div class="flow-svg-arrow-container">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 45 220" preserveAspectRatio="none">
                     <defs>
@@ -531,14 +504,8 @@
                             <path d="M0,0 L5.25,2.625 L0,5.25 Z" fill="#000000" />
                         </marker>
                     </defs>
-                    <!-- 上方分支：自主線對齊錨點(16,110)垂直折上，直接指向綠色卡片外框左緣(40,42) -->
-                    <path d="M 16,110 L 16,42 L 40,42" 
-                          fill="none" stroke="#000000" stroke-width="4" stroke-linejoin="miter"
-                          marker-end="url(#svg-arrow-head-small)" />
-                    <!-- 下方分支：自起點(16,110)垂直折下，直接指向橘色卡片外框左緣(40,178) -->
-                    <path d="M 16,110 L 16,178 L 40,178" 
-                          fill="none" stroke="#000000" stroke-width="4" stroke-linejoin="miter"
-                          marker-end="url(#svg-arrow-head-small)" />
+                    <path d="M 16,110 L 16,42 L 40,42" fill="none" stroke="#000000" stroke-width="4" stroke-linejoin="miter" marker-end="url(#svg-arrow-head-small)" />
+                    <path d="M 16,110 L 16,178 L 40,178" fill="none" stroke="#000000" stroke-width="4" stroke-linejoin="miter" marker-end="url(#svg-arrow-head-small)" />
                 </svg>
             </div>
 
@@ -550,7 +517,7 @@
                 </div>
                 
                 <div class="outcome-card border-orange-outcome">
-                    <span class="card-head">開設成果 2</span>
+                    <span class="card-head">可能成果 2</span>
                     <div style="font-size:13px;">到期日當天市值 &lt; 執行價</div>
                 </div>
             </div>
@@ -603,53 +570,20 @@
 <script>
     const FINNHUB_TOKEN = "d8vv9c1r01qp5hrm64fgd8vv9c1r01qp5hrm64g0";
 
-    function toggleStepDownPanel() {
-        const isChecked = document.getElementById('enable-step-down').checked;
-        const panel = document.getElementById('step-down-panel');
-        const months = parseInt(document.getElementById('period').value) || 1;
-        const grid = document.getElementById('step-down-fields-grid');
-        
-        if (isChecked && months > 1) {
-            panel.style.display = 'block';
-            grid.innerHTML = '';
-            const defaultBase = parseFloat(document.getElementById('trigger-out-pct').value) || 90;
-            
-            for (let i = 2; i <= months; i++) {
-                const div = document.createElement('div');
-                div.className = 'step-field';
-                const calculatedVal = Math.max(0, defaultBase - (i - 2));
-                div.innerHTML = `
-                    <label>第 ${i} 個月 (%)</label>
-                    <input type="number" id="step-pct-${i}" value="${calculatedVal}" min="0" max="150" oninput="runAllCalculations()">
-                `;
-                grid.appendChild(div);
-            }
-        } else {
-            panel.style.display = 'none';
-        }
-    }
-
-    function autoFillStepDown() {
-        const isChecked = document.getElementById('enable-step-down').checked;
-        if (!isChecked) return;
-        const months = parseInt(document.getElementById('period').value) || 1;
-        const defaultBase = parseFloat(document.getElementById('trigger-out-pct').value) || 90;
-        for (let i = 2; i <= months; i++) {
-            const el = document.getElementById(`step-pct-${i}`);
-            if (el) el.value = Math.max(0, defaultBase - (i - 2));
-        }
-    }
-
+    // 💡 智慧公式演算法：依據固定遞減值換算指定月份的出場%
     function getStrikeOutPctForMonth(targetMonth) {
-        const isChecked = document.getElementById('enable-step-down').checked;
+        const basePct = parseFloat(document.getElementById('trigger-out-pct').value) || 100;
+        const isStepDownChecked = document.getElementById('enable-step-down').checked;
+        const stepDownValue = parseFloat(document.getElementById('step-down-val').value) || 0;
+        
         if (targetMonth === 1) {
-            return parseFloat(document.getElementById('trigger-out-pct').value) || 90;
+            return basePct;
         }
-        if (isChecked) {
-            const mEl = document.getElementById(`step-pct-${targetMonth}`);
-            if (mEl) return parseFloat(mEl.value) || 0;
+        if (isStepDownChecked) {
+            // 從第二個月開始，依照指定遞減值做階梯式扣減
+            return Math.max(0, basePct - (targetMonth - 1) * stepDownValue);
         }
-        return parseFloat(document.getElementById('trigger-out-pct').value) || 90;
+        return basePct;
     }
 
     async function updateTickerInfo(id) {
@@ -708,10 +642,6 @@
             }
         }
         document.getElementById('diag-val-ref-list').innerHTML = refListHtml || "未設定標的";
-    }
-
-    function formatCurrency(num) {
-        return 'NT$ ' + Math.round(num).toLocaleString('zh-TW');
     }
 
     function calculateFutureMonthStr(baseDateStr, addedMonths) {
@@ -791,14 +721,10 @@
         }
     }
 
+    // 💡 1 & 3. 整合：實裝您的專屬密鑰網址，並擴充封裝遞減數據欄位一併傳遞
     async function saveDirectToSpreadsheet() {
         const GAS_DEPLOY_URL = "https://script.google.com/macros/s/AKfycbwI3_51VfgVQHzlmoCix8XN_A6za7l3gdom1HpXjiVO9a7gqIBWsaJ8nv6Ld9tOIdqv/exec";
         
-        if (GAS_DEPLOY_URL.includes("【請貼上")) {
-            alert("請先將網頁原始碼最下方的 GAS_DEPLOY_URL 替換為您在 Google Apps Script 部署完成的網頁應用程式 URL！");
-            return;
-        }
-
         const urlParams = new URLSearchParams();
         urlParams.append("currentUserEmail", currentUserEmail);
         urlParams.append("customerName", document.getElementById('customer-name').value);
@@ -809,12 +735,13 @@
         urlParams.append("strikePct", document.getElementById('strike-pct').value);
         urlParams.append("knockinPct", document.getElementById('knockin-pct').value);
         
+        // 衍生處理：智慧型字串串接趨勢
         const isChecked = document.getElementById('enable-step-down').checked;
         if (isChecked) {
             let months = parseInt(document.getElementById('period').value) || 1;
             let arr = [];
-            for(let k=1; k<=months; k++) { arr.push(getStrikeOutPctForMonth(k) + "%"); }
-            urlParams.append("triggerOutPct", "階梯遞減: " + arr.join(" / "));
+            for(let k = 1; k <= months; k++) { arr.push(getStrikeOutPctForMonth(k) + "%"); }
+            urlParams.append("triggerOutPct", "階梯遞減: " + arr.join(" -> "));
         } else {
             urlParams.append("triggerOutPct", document.getElementById('trigger-out-pct').value + "%");
         }
@@ -833,13 +760,12 @@
             });
             alert(`🎉 直連儲存成功！\n\n客戶名稱：${document.getElementById('customer-name').value}\n操作者：${currentUserEmail}\n數據已成功傳輸寫入您的 Google 雲端試算表中。`);
         } catch (error) {
-            alert("❌ 雲端直連儲存失敗，請檢查網路或 GAS_DEPLOY_URL 設定！");
+            alert("❌ 雲端直連儲存失敗，請檢查網路連線或系統設定！");
         }
     }
 
     window.onload = function() {
         getFirebaseUser(); 
-        toggleStepDownPanel(); 
         for (let id = 1; id <= 5; id++) { updateTickerInfo(id); }
         runAllCalculations();
     };
