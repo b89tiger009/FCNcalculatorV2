@@ -194,177 +194,189 @@
             min-height: 115px;
         }
 
-        /* ─── V19.1 SVG 終極完美對齊時序流程圖 ─── */
-        .flow-diagram-container {
-            background-color: #ffffff;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            padding: 30px 20px;
-            margin: 25px 0;
-            overflow-x: auto;
-        }
-        .flow-timeline-wrapper {
-            position: relative;
-            display: flex;
-            align-items: flex-start;
-            min-width: 1080px;
-            padding-top: 10px;
-            padding-bottom: 30px;
-        }
-        /* 時間軸橫向黑色主幹線 */
-        .flow-main-axis {
-            position: absolute;
-            top: 245px;
-            left: 1%;
-            width: 745px; /* 精準延伸至第四張黑框卡片右緣 */
-            height: 4px;
-            background-color: #000000;
-            z-index: 1;
-        }
-        .flow-lead-line {
-            position: absolute;
-            top: 185px;
-            height: 60px;
-            width: 2px;
-            background-color: #000000;
-            z-index: 1;
-        }
-        .flow-axis-dot {
-            position: absolute;
-            top: 241px;
-            width: 12px;
-            height: 12px;
-            background-color: #000000;
-            border-radius: 50%;
-            transform: translateX(-5px);
-            z-index: 2;
-        }
+/* ─── V19.2 SVG 終極完美對齊時序流程圖（修正版） ─── */
+    .flow-diagram-container {
+        background-color: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        padding: 30px 20px;
+        margin: 25px 0;
+        overflow-x: auto;
+    }
+    .flow-timeline-wrapper {
+        position: relative;
+        display: flex;
+        align-items: flex-start;
+        min-width: 1080px;
+        padding-top: 10px;
+        padding-bottom: 30px;
+    }
+    
+    /* 🔧 修正 1：主幹線高度從 245px 修正為 130px，使其與 SVG 內路徑的 Y=110 完美水平銜接 */
+    .flow-main-axis {
+        position: absolute;
+        top: 130px; /* 完美水平對齊分岔點 */
+        left: 1%;
+        width: 745px; /* 精準延伸至第四張黑框卡片右緣 */
+        height: 4px;
+        background-color: #000000;
+        z-index: 1;
+    }
+    
+    /* 🔧 修正 2：垂直引線的 top 與高度配合主幹線上移進行調整 */
+    .flow-lead-line {
+        position: absolute;
+        top: 185px;  /* 卡片底部出發 */
+        height: -55px; /* 改為向上對齊，或者直接將高度設為 60px */
+        /* 為了讓引線從卡片底部完美向下連接到新的主幹線(130px)位置 */
+        top: 130px;
+        height: 55px;
+        width: 2px;
+        background-color: #000000;
+        z-index: 1;
+    }
+    
+    /* 🔧 修正 3：圓點 (Dot) 的 top 從 241px 修正為 126px，使其完美落在 130px 的主幹線正中央 */
+    .flow-axis-dot {
+        position: absolute;
+        top: 126px; /* 130px 主軸 - (12px圓點/2) = 126px */
+        width: 12px;
+        height: 12px;
+        background-color: #000000;
+        border-radius: 50%;
+        transform: translateX(-5px);
+        z-index: 2;
+    }
 
-        .simple-flow-box {
-            background: #ffffff;
-            border-radius: 16px;
-            padding: 16px;
-            font-size: 13px;
-            line-height: 1.6;
-            width: 195px;
-            min-height: 175px;
-            box-shadow: 0 4px 14px rgba(0,0,0,0.04);
-            box-sizing: border-box;
-            z-index: 2;
-            text-align: center;
-        }
-        .simple-flow-box .box-header {
-            font-size: 14px;
-            font-weight: 500;
-            color: #444444;
-            margin-bottom: 12px;
-            display: block;
-        }
-        
-        .box-start { border: 2px solid #4caf50; text-align: left !important; margin-right: 12px; }
-        .box-month1 { border: 2px solid #2196f3; margin-right: 12px; }
-        .box-ko { border: 2px solid #ff9800; margin-right: 12px; }
-        .box-end { border: 2px solid #000000; margin-right: 12px; }
+    .simple-flow-box {
+        background: #ffffff;
+        border-radius: 16px;
+        padding: 16px;
+        font-size: 13px;
+        line-height: 1.6;
+        width: 195px;
+        /* 🔧 修正 4：微調主卡片最小高度，確保下緣水平線與主幹線引線比例一致 */
+        min-height: 175px; 
+        box-shadow: 0 4px 14px rgba(0,0,0,0.04);
+        box-sizing: border-box;
+        z-index: 2;
+        text-align: center;
+        margin-bottom: 60px; /* 留出下方空間給新的主幹線 */
+    }
+    .simple-flow-box .box-header {
+        font-size: 14px;
+        font-weight: 500;
+        color: #444444;
+        margin-bottom: 12px;
+        display: block;
+    }
+    
+    .box-start { border: 2px solid #4caf50; text-align: left !important; margin-right: 12px; }
+    .box-month1 { border: 2px solid #2196f3; margin-right: 12px; }
+    .box-ko { border: 2px solid #ff9800; margin-right: 12px; }
+    .box-end { border: 2px solid #000000; margin-right: 12px; }
 
-        /* 💡 SVG 核心容器：精確對齊 viewBox 比例 */
-        .flow-svg-arrow-container {
-            width: 45px;
-            height: 220px;
-            position: relative;
-            z-index: 2;
-            margin-top: 10px;
-            flex-shrink: 0;
-            display: block;
-        }
-        .flow-svg-arrow-container svg {
-            width: 100%;
-            height: 100%;
-            display: block;
-        }
+    /* 💡 SVG 核心容器：頂部對齊主幹線高度 */
+    .flow-svg-arrow-container {
+        width: 45px;
+        height: 220px;
+        position: relative;
+        z-index: 2;
+        /* 🔧 修正 5：讓 SVG 頂端落在 Y=20px 的位置，進而使 SVG 的 Y=110px（中心分岔點）剛好落在 130px 的主幹線高度 */
+        margin-top: 20px; 
+        flex-shrink: 0;
+        display: block;
+    }
+    .flow-svg-arrow-container svg {
+        width: 100%;
+        height: 100%;
+        display: block;
+    }
 
-        /* 💡 右側成果容器：套用測試過的最優外邊距 (-5px)，讓線條完美黏合卡片 */
-        .flow-right-outcomes-wrapper {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            height: 220px;
-            min-width: 250px;
-            z-index: 2;
-            margin-top: 10px;
-            margin-left: -5px; 
-            flex-shrink: 0;
-        }
+    /* 💡 右側成果容器：同步調整 margin-top，使字卡高度完美與分流箭頭對位 */
+    .flow-right-outcomes-wrapper {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 220px;
+        min-width: 250px;
+        z-index: 2;
+        margin-top: 20px; /* 同步 SVG 容器的 20px */
+        margin-left: -5px; 
+        flex-shrink: 0;
+    }
 
-        /* 成果字卡樣式：完美對齊綠橘外框 */
-        .outcome-card {
-            background-color: #ffffff;
-            border-radius: 16px;
-            border-width: 2px;
-            border-style: solid;
-            padding: 12px 20px;
-            font-size: 13px;
-            color: #64748b;
-            width: 250px;
-            height: 90px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
-            box-sizing: border-box;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-        .outcome-card .card-head {
-            font-weight: bold;
-            font-size: 16px;
-            display: block;
-            margin-bottom: 6px;
-        }
-        
-        .border-green-outcome { border-color: #22c55e; }
-        .border-green-outcome .card-head { color: #16a34a; }
+    /* 成果字卡樣式 */
+    .outcome-card {
+        background-color: #ffffff;
+        border-radius: 16px;
+        border-width: 2px;
+        border-style: solid;
+        padding: 12px 20px;
+        font-size: 13px;
+        color: #64748b;
+        width: 250px;
+        height: 90px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    .outcome-card .card-head {
+        font-weight: bold;
+        font-size: 16px;
+        display: block;
+        margin-bottom: 6px;
+    }
+    
+    .border-green-outcome { border-color: #22c55e; }
+    .border-green-outcome .card-head { color: #16a34a; }
 
-        .border-orange-outcome { border-color: #f97316; }
-        .border-orange-outcome .card-head { color: #ea580c; }
+    .border-orange-outcome { border-color: #f97316; }
+    .border-orange-outcome .card-head { color: #ea580c; }
 
-        .red-text-style { color: #e53e3e; font-weight: bold; font-size: 15px; }
-        .blue-text-style { color: #e53e3e; font-weight: bold; font-size: 15px; }
+    .red-text-style { color: #e53e3e; font-weight: bold; font-size: 15px; }
+    .blue-text-style { color: #e53e3e; font-weight: bold; font-size: 15px; }
 
-        .ko-bottom-desc-area {
-            margin-top: 35px;
-            text-align: center;
-            min-width: 950px;
-            border-top: 1px dashed #e2e8f0;
-            padding-top: 20px;
-        }
-        .ko-desc-title { color: #e53e3e; font-weight: bold; font-size: 15px; margin-bottom: 12px; }
-        .ko-desc-item { font-size: 13px; margin: 8px 0; color: #333333; }
-        .ko-desc-item span { font-weight: bold; }
+    .ko-bottom-desc-area {
+        margin-top: 35px;
+        text-align: center;
+        min-width: 950px;
+        border-top: 1px dashed #e2e8f0;
+        padding-top: 20px;
+    }
+    .ko-desc-title { color: #e53e3e; font-weight: bold; font-size: 15px; margin-bottom: 12px; }
+    .ko-desc-item { font-size: 13px; margin: 8px 0; color: #333333; }
+    .ko-desc-item span { font-weight: bold; }
 
-        .cloud-save-area { text-align: center; margin: 30px 0; }
-        .btn-save {
-            background-color: #0f4c81;
-            color: #ffffff;
-            font-size: 16px;
-            font-weight: bold;
-            padding: 14px 35px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            box-shadow: 0 4px 10px rgba(15,76,129,0.25);
-            transition: all 0.2s;
-        }
-        .btn-save:hover { background-color: #125999; transform: translateY(-1px); }
-        
-        .result-section { margin-top: 15px; border-top: 2px dashed #cbd5e1; padding-top: 25px; }
-        .section-title { font-size: 18px; font-weight: bold; color: #0f4c81; margin-bottom: 20px; display: flex; align-items: center; gap: 8px; }
-        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 30px; }
-        .stat-card { background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 20px 15px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
-        .stat-label { font-size: 13px; color: #64748b; margin-bottom: 8px; }
-        .stat-value { font-size: 22px; font-weight: bold; color: #0f4c81; }
-        .stat-value.green { color: #10b981; }
-        table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 14px; background: #fff; }
-        th, td { padding: 14px 12px; text-align: center; border-bottom: 1px solid #edf2f7; }
-        th { background-color: #0f4c81; color: white; font-weight: bold; }
-        .disclaimer { font-size: 12px; color: #94a3b8; margin-top: 35px; line-height: 1.6; border-top: 1px solid #e2e8f0; padding-top: 20px; }
+    .cloud-save-area { text-align: center; margin: 30px 0; }
+    .btn-save {
+        background-color: #0f4c81;
+        color: #ffffff;
+        font-size: 16px;
+        font-weight: bold;
+        padding: 14px 35px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        box-shadow: 0 4px 10px rgba(15,76,129,0.25);
+        transition: all 0.2s;
+    }
+    .btn-save:hover { background-color: #125999; transform: translateY(-1px); }
+    
+    .result-section { margin-top: 15px; border-top: 2px dashed #cbd5e1; padding-top: 25px; }
+    .section-title { font-size: 18px; font-weight: bold; color: #0f4c81; margin-bottom: 20px; display: flex; align-items: center; gap: 8px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 30px; }
+    .stat-card { background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 20px 15px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
+    .stat-label { font-size: 13px; color: #64748b; margin-bottom: 8px; }
+    .stat-value { font-size: 22px; font-weight: bold; color: #0f4c81; }
+    .stat-value.green { color: #10b981; }
+    table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 14px; background: #fff; }
+    th, td { padding: 14px 12px; text-align: center; border-bottom: 1px solid #edf2f7; }
+    th { background-color: #0f4c81; color: white; font-weight: bold; }
+    .disclaimer { font-size: 12px; color: #94a3b8; margin-top: 35px; line-height: 1.6; border-top: 1px solid #e2e8f0; padding-top: 20px; }
+</style>
     </style>
 </head>
 <body>
