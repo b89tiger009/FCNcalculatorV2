@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FCN「不成交只領息」自訂客製化試算工具</title>
     <script>
-        // 【安全防護】嚴格檢查 HTTP 來源網頁 (Referrer) 驗證機制 (已更新至 V3)
+        // 【安全防護】嚴格檢查 HTTP 來源網頁 (Referrer) 驗證機制 (同步更新至入口網站 V3)
         var allowedReferrer = "https://b89tiger009.github.io/Portal_web_encV3/";
         (function() {
             var currentReferrer = document.referrer;
@@ -194,7 +194,7 @@
             min-height: 115px;
         }
 
-        /* ─── V19.3 SVG 精確銜接與穿透分流時序流程圖 ─── */
+        /* ─── V19.4 SVG 精確銜接與穿透分流時序流程圖 ─── */
         .flow-diagram-container {
             background-color: #ffffff;
             border: 1px solid #e2e8f0;
@@ -211,16 +211,18 @@
             padding-top: 10px;
             padding-bottom: 30px;
         }
-        /* 🔧 橫向主幹線：往右拉長至 772px 完美對接 SVG */
+        
+        /* 橫向主幹線：整合修改，拉長至 772px 達成與分流垂直黑線的無縫串接 */
         .flow-main-axis {
             position: absolute;
             top: 245px;
             left: 1%;
-            width: 772px; 
+            width: 825px; 
             height: 4px;
             background-color: #000000;
             z-index: 1;
         }
+        
         .flow-lead-line {
             position: absolute;
             top: 185px;
@@ -229,6 +231,7 @@
             background-color: #000000;
             z-index: 1;
         }
+        
         .flow-axis-dot {
             position: absolute;
             top: 241px;
@@ -247,7 +250,7 @@
             font-size: 13px;
             line-height: 1.6;
             width: 195px;
-            min-height: 175px;
+            min-height: 175px; 
             box-shadow: 0 4px 14px rgba(0,0,0,0.04);
             box-sizing: border-box;
             z-index: 2;
@@ -266,13 +269,13 @@
         .box-ko { border: 2px solid #ff9800; margin-right: 12px; }
         .box-end { border: 2px solid #000000; margin-right: 12px; }
 
-        /* SVG 核心區容器 */
+        /* SVG 核心區容器：維持物理垂直對齊(margin-top: 135px) */
         .flow-svg-arrow-container {
             width: 45px;
             height: 220px;
             position: relative;
             z-index: 2;
-            margin-top: 10px;
+            margin-top: 135px; 
             flex-shrink: 0;
             display: block;
         }
@@ -282,7 +285,7 @@
             display: block;
         }
 
-        /* 右側成果卡片容器 */
+        /* 右側成果容器 */
         .flow-right-outcomes-wrapper {
             display: flex;
             flex-direction: column;
@@ -290,11 +293,12 @@
             height: 220px;
             min-width: 250px;
             z-index: 2;
-            margin-top: 10px;
+            margin-top: 135px; 
             margin-left: -5px; 
             flex-shrink: 0;
         }
 
+        /* 成果字卡樣式 */
         .outcome-card {
             background-color: #ffffff;
             border-radius: 16px;
@@ -325,7 +329,7 @@
         .border-orange-outcome .card-head { color: #ea580c; }
 
         .red-text-style { color: #e53e3e; font-weight: bold; font-size: 15px; }
-        .blue-text-style { color: #e53e3e; font-weight: bold; font-size: 15px; }
+        .blue-text-style { color: #2196f3; font-weight: bold; font-size: 15px; } 
 
         .ko-bottom-desc-area {
             margin-top: 35px;
@@ -353,6 +357,7 @@
         }
         .btn-save:hover { background-color: #125999; transform: translateY(-1px); }
         
+        /* 成果報表排版 */
         .result-section { margin-top: 15px; border-top: 2px dashed #cbd5e1; padding-top: 25px; }
         .section-title { font-size: 18px; font-weight: bold; color: #0f4c81; margin-bottom: 20px; display: flex; align-items: center; gap: 8px; }
         .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 30px; }
@@ -370,7 +375,7 @@
 
 <div class="container">
     <h1>FCN「不成交只領息」自訂客製化試算工具</h1>
-    <div class="subtitle">修正版 V19.3：完美整合主軸橫向對齊延伸與精細化分流向量端點</div>
+    <div class="subtitle">完美修正版 V19.4：融合主軸精準直越穿透（772px）與微型對齊向量分流路徑</div>
 
     <!-- 參數輸入區 -->
     <div class="input-grid">
@@ -387,7 +392,7 @@
         <div class="form-group">
             <label for="coupon-rate">年化票息 (%)</label>
             <input type="number" id="coupon-rate" value="20" min="0" max="100" step="0.5" oninput="runAllCalculations()">
-            <div id="err-coupon" class="error-text">❌年化票息範圍必須介於 0 至 100 之間</div>
+            <div id="err-coupon" class="error-text">❌ 年化票息範圍必須介於 0 至 100 之間</div>
         </div>
         <div class="form-group">
             <label for="start-date">進場時間 (西元時間選項)</label>
@@ -434,7 +439,7 @@
         </div>
 
         <div id="step-down-panel" class="step-down-container">
-            <div class="step-down-title">📊 請手動設定第 2 個月至慢期各月份的出場價觀察比例 (%)：</div>
+            <div class="step-down-title">📊 請手動設定第 2 個月至滿期各月份的出場價觀察比例 (%)：</div>
             <div id="step-down-fields-grid" class="step-down-grid"></div>
         </div>
     </div>
@@ -474,10 +479,11 @@
         </div>
     </div>
 
-    <!-- ─── V19.3 完美對齊與橫穿分流時序圖 ─── -->
+    <!-- ─── 完美融合穿透線與修正路徑之時序圖 ─── -->
     <div class="ticker-section-title">📊 FCN 產品架構與存續條件動態時序圖</div>
     <div class="flow-diagram-container">
         <div class="flow-timeline-wrapper">
+            <!-- 底座黑色主幹線 (772px 直連分流器) -->
             <div class="flow-main-axis"></div>
             
             <div class="simple-flow-box box-start">
@@ -517,7 +523,7 @@
             <div class="flow-lead-line" style="left: 726px;"></div>
             <div class="flow-axis-dot" style="left: 726px;"></div>
 
-            <!-- 🔧 擷取核心：完美植入修正後的 SVG 向量路徑與細緻三角形箭頭標記 -->
+            <!-- SVG 核心區：精確擷取修正後的垂直對齊路徑，移除水平重疊段 -->
             <div class="flow-svg-arrow-container">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 45 220" preserveAspectRatio="none">
                     <defs>
@@ -525,18 +531,18 @@
                             <path d="M0,0 L5.25,2.625 L0,5.25 Z" fill="#000000" />
                         </marker>
                     </defs>
-                    <!-- 上方分支：自主線末端起點(16,110)垂直折上並精確觸碰卡片左緣(40,42) -->
+                    <!-- 上方分支：自主線對齊錨點(16,110)垂直折上，直接指向綠色卡片外框左緣(40,42) -->
                     <path d="M 16,110 L 16,42 L 40,42" 
                           fill="none" stroke="#000000" stroke-width="4" stroke-linejoin="miter"
                           marker-end="url(#svg-arrow-head-small)" />
-                    <!-- 下方分支：自起點(16,110)垂直折下並精確觸碰卡片左緣(40,178) -->
+                    <!-- 下方分支：自起點(16,110)垂直折下，直接指向橘色卡片外框左緣(40,178) -->
                     <path d="M 16,110 L 16,178 L 40,178" 
                           fill="none" stroke="#000000" stroke-width="4" stroke-linejoin="miter"
                           marker-end="url(#svg-arrow-head-small)" />
                 </svg>
             </div>
 
-            <!-- 右端成果卡片 -->
+            <!-- 右端成果卡片區 -->
             <div class="flow-right-outcomes-wrapper">
                 <div class="outcome-card border-green-outcome">
                     <span class="card-head">可能成果 1</span>
@@ -544,7 +550,7 @@
                 </div>
                 
                 <div class="outcome-card border-orange-outcome">
-                    <span class="card-head">可能成果 2</span>
+                    <span class="card-head">開設成果 2</span>
                     <div style="font-size:13px;">到期日當天市值 &lt; 執行價</div>
                 </div>
             </div>
@@ -557,7 +563,7 @@
         </div>
     </div>
 
-    <!-- 試算結果摘要 -->
+    <!-- 試算結果摘要報表 -->
     <div class="result-section">
         <div class="section-title">💰 試算結果摘要</div>
         <div class="grid-3">
@@ -702,6 +708,10 @@
             }
         }
         document.getElementById('diag-val-ref-list').innerHTML = refListHtml || "未設定標的";
+    }
+
+    function formatCurrency(num) {
+        return 'NT$ ' + Math.round(num).toLocaleString('zh-TW');
     }
 
     function calculateFutureMonthStr(baseDateStr, addedMonths) {
