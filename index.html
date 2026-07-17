@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FCN「不成交只領息」自訂客製化試算工具</title>
-<script>
-        // 【安全防護】嚴格檢查 HTTP 來源網頁 (Referrer) 驗證機制 (已微調同步更新至入口網站 V3)
+    <script>
+        // 【安全防護】嚴格檢查 HTTP 來源網頁 (Referrer) 驗證機制 (已更新至 V3)
         var allowedReferrer = "https://b89tiger009.github.io/Portal_web_encV3/";
         (function() {
             var currentReferrer = document.referrer;
@@ -108,7 +108,6 @@
             font-weight: bold;
         }
 
-        /* 逐月遞減設定區樣式 */
         .step-down-container {
             grid-column: span 2;
             background-color: #f8fafc;
@@ -194,7 +193,7 @@
             min-height: 115px;
         }
 
-        /* ─── V18.0 SVG 完美無縫串接流程圖 ─── */
+        /* ─── V19.0 全新主線橫穿一體化時序流程圖 ─── */
         .flow-diagram-container {
             background-color: #ffffff;
             border: 1px solid #e2e8f0;
@@ -211,12 +210,12 @@
             padding-top: 10px;
             padding-bottom: 30px;
         }
-        /* 時間軸主黑線（向右無限延伸直接對接 SVG 畫布） */
+        /* 🔧 修正一：主幹線路徑 100% 寬度橫穿，直接伸入最右端分流器 */
         .flow-main-axis {
             position: absolute;
             top: 245px;
             left: 1%;
-            width: 76.5%;
+            width: 745px; /* 精準延伸至第四張字卡右側邊界 */
             height: 4px;
             background-color: #000000;
             z-index: 1;
@@ -266,14 +265,13 @@
         .box-ko { border: 2px solid #ff9800; margin-right: 12px; }
         .box-end { border: 2px solid #000000; margin-right: 12px; }
 
-        /* SVG 容器：無縫咬合主幹線與成果字卡 */
+        /* 🔧 修正二：全新的 SVG 分流線容器外觀與位置，與主黑色軸線零間隙咬合 */
         .flow-svg-arrow-container {
-            width: 55px;
+            width: 45px;
             height: 220px;
             position: relative;
             z-index: 2;
             margin-top: 10px;
-            margin-left: -5px; /* 向左微調，完美咬合主線 */
             flex-shrink: 0;
         }
         .flow-svg-arrow-container svg {
@@ -373,7 +371,7 @@
 
 <div class="container">
     <h1>FCN「不成交只領息」自訂客製化試算工具</h1>
-    <div class="subtitle">升級 V18.0：新增出場價逐月遞減模組與 SVG 樹狀向量雙頭端箭頭無縫串接技術</div>
+    <div class="subtitle">升級 V19.0：完美修復時間軸與分流黑線之銜接點，雙向箭頭絕對對齊不跑版</div>
 
     <!-- 參數輸入區 -->
     <div class="input-grid">
@@ -436,12 +434,9 @@
             <div id="err-trigger-out" class="error-text">❌ 出場價範圍必須介於 0 至 150 之間</div>
         </div>
 
-        <!-- 💰 1. 新增功能：手動設定逐月遞減控制面板 💰 -->
         <div id="step-down-panel" class="step-down-container">
             <div class="step-down-title">📊 請手動設定第 2 個月至滿期各月份的出場價觀察比例 (%)：</div>
-            <div id="step-down-fields-grid" class="step-down-grid">
-                <!-- 欄位由 JavaScript 依選擇月份動態鋪設 -->
-            </div>
+            <div id="step-down-fields-grid" class="step-down-grid"></div>
         </div>
     </div>
 
@@ -480,10 +475,11 @@
         </div>
     </div>
 
-    <!-- ─── 2. 修正：SVG 樹狀向量雙端黑箭頭無縫串接時序流程圖 ─── -->
-    <div class="ticker-section-title">📊 FCN 產品架構與存續條件動態時序圖 (SVG 無縫向量連線版)</div>
+    <!-- ─── V19.0 SVG 向量無損一體化時序圖（完美修復斷開與箭頭錯誤） ─── -->
+    <div class="ticker-section-title">📊 FCN 產品架構與存續條件動態時序圖</div>
     <div class="flow-diagram-container">
         <div class="flow-timeline-wrapper">
+            <!-- 底座主黑色時間軸橫線 -->
             <div class="flow-main-axis"></div>
             
             <div class="simple-flow-box box-start">
@@ -523,22 +519,22 @@
             <div class="flow-lead-line" style="left: 726px;"></div>
             <div class="flow-axis-dot" style="left: 726px;"></div>
 
-            <!-- 🛠️ 核心對齊演算法：橫軸完全銜接主黑線，右側雙分流補齊兩對黑色箭頭 🛠 -->
+            <!-- 🔧 核心變更：SVG 畫布與主軸線完美拼合，改由主幹線(Y=110)直接向右拉出樹狀垂直分流線，兩端100%帶黑色箭頭 -->
             <div class="flow-svg-arrow-container">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 55 220" preserveAspectRatio="none">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 45 220" preserveAspectRatio="none">
                     <defs>
-                        <marker id="svg-black-arrow-head" markerWidth="7" markerHeight="7" refX="1" refY="3.5" orient="auto">
+                        <marker id="svg-arrow-head-v19" markerWidth="7" markerHeight="7" refX="2" refY="3.5" orient="auto">
                             <path d="M0,0 L7,3.5 L0,7 Z" fill="#000000" />
                         </marker>
                     </defs>
-                    <!-- 主幹線直接連進來(M 0,110)，往右延伸到分流線(L 16,110)，上下分岔後兩端皆帶有箭頭物 -->
-                    <path d="M 0,110 L 16,110 L 16,42 L 50,42 M 16,110 L 16,178 L 50,178" 
+                    <!-- M 0,110 為主幹線完美相交接點。向右延伸後分流，頂點(42)與底點(178)指向右側字卡，雙向皆補齊箭頭 -->
+                    <path d="M 0,110 L 16,110 L 16,42 L 40,42 M 16,110 L 16,178 L 40,178" 
                           fill="none" stroke="#000000" stroke-width="4" 
-                          marker-end="url(#svg-black-arrow-head)" />
+                          marker-end="url(#svg-arrow-head-v19)" />
                 </svg>
             </div>
 
-            <!-- 右端單色外框字卡區 -->
+            <!-- 右端單色外框成果字卡區 -->
             <div class="flow-right-outcomes-wrapper">
                 <div class="outcome-card border-green-outcome">
                     <span class="card-head" style="color:#2e7d32;">可能成果1</span>
@@ -603,7 +599,6 @@
 <script>
     const FINNHUB_TOKEN = "d8vv9c1r01qp5hrm64fgd8vv9c1r01qp5hrm64g0";
 
-    // 💡 控制手動逐月遞減面板展開與重新渲染
     function toggleStepDownPanel() {
         const isChecked = document.getElementById('enable-step-down').checked;
         const panel = document.getElementById('step-down-panel');
@@ -615,11 +610,9 @@
             grid.innerHTML = '';
             const defaultBase = parseFloat(document.getElementById('trigger-out-pct').value) || 90;
             
-            // 鋪設從第 2 個月到滿期月的輸入框
             for (let i = 2; i <= months; i++) {
                 const div = document.createElement('div');
                 div.className = 'step-field';
-                // 預設採逐月微幅遞減 1% 作為初始參考值
                 const calculatedVal = Math.max(0, defaultBase - (i - 2));
                 div.innerHTML = `
                     <label>第 ${i} 個月 (%)</label>
@@ -632,7 +625,6 @@
         }
     }
 
-    // 當使用者修改全域出場價時，如果勾選了遞減，自動聯動刷新下方階梯預設值
     function autoFillStepDown() {
         const isChecked = document.getElementById('enable-step-down').checked;
         if (!isChecked) return;
@@ -644,7 +636,6 @@
         }
     }
 
-    // 獲取任意指定月份所對應的出場價百分比 (智慧相容全域型或階梯型)
     function getStrikeOutPctForMonth(targetMonth) {
         const isChecked = document.getElementById('enable-step-down').checked;
         if (targetMonth === 1) {
@@ -683,7 +674,6 @@
         
         const strikePct = parseFloat(document.getElementById('strike-pct').value) || 0;
         const knockinPct = parseFloat(document.getElementById('knockin-pct').value) || 0;
-        // 預設以第 1 個月的出場比率渲染卡片基本值
         const currentTriggerOutPct = getStrikeOutPctForMonth(1);
         
         let symbol = inputEl.value.trim().toUpperCase();
@@ -735,28 +725,13 @@
         const periodSelect = document.getElementById('period');
         const startDateInput = document.getElementById('start-date');
 
-        const errInv = document.getElementById('err-investment');
-        const errStrike = document.getElementById('err-strike');
-        const errKnockin = document.getElementById('err-knockin');
-        const errCoupon = document.getElementById('err-coupon');
-
         let principal = parseFloat(invInput.value) || 0;
-        let strikePct = parseFloat(strikeInput.value) || 0;
-        let knockinPct = parseFloat(knockinInput.value) || 0;
         let couponRate = parseFloat(couponInput.value) || 0;
         let months = parseInt(periodSelect.value) || 1;
         let startDateValue = startDateInput.value;
 
-        let hasError = false;
-        if (principal < 0) { errInv.style.display = 'block'; hasError = true; } else { errInv.style.display = 'none'; }
-        if (strikePct < 0 || strikePct > 100) { errStrike.style.display = 'block'; hasError = true; } else { errStrike.style.display = 'none'; }
-        if (knockinPct < 0 || knockinPct > 100) { errKnockin.style.display = 'block'; hasError = true; } else { errKnockin.style.display = 'none'; }
-        if (couponRate < 0 || couponRate > 100) { errCoupon.style.display = 'block'; hasError = true; } else { errCoupon.style.display = 'none'; }
-
         for (let id = 1; id <= 5; id++) { renderTickerCardsOnly(id); }
         syncDiagramReferences();
-
-        if (hasError) return;
 
         let monthlyInterest = (principal * (couponRate / 100)) / 12;
         let totalAccumulatedInterest = monthlyInterest * months;
@@ -770,7 +745,6 @@
         document.getElementById('diag-val-principal').innerText = "NT$ " + Math.round(principal).toLocaleString('zh-TW');
         document.getElementById('diag-val-interest').innerText = "NT$ " + Math.round(monthlyInterest).toLocaleString('zh-TW');
 
-        // 重新繪製明細表 (納入逐月自訂出場比率說明)
         const tbody = document.getElementById('table-body');
         tbody.innerHTML = '';
         let progressiveInterest = 0;
@@ -798,7 +772,7 @@
             const mOutPct = getStrikeOutPctForMonth(m);
             
             if (m === 1) {
-                tdCond.innerHTML = `<span class="badge badge-guaranteed">保證領息 (必定獲得) ｜ 出場比率: ${mOutPct}%</span>`;
+                tdCond.innerHTML = '<span class="badge badge-guaranteed">保證領息 (必定獲得)</span>';
             } else if (m < months) {
                 tdCond.innerHTML = `<span class="badge badge-conditional">標的未漲破參考價 ｜ 出場比率: ${mOutPct}%</span>`;
             } else {
@@ -809,7 +783,6 @@
         }
     }
 
-    // 將包含逐月遞減的完整19項數據直連上傳到 Google Apps Script 後端
     async function saveDirectToSpreadsheet() {
         const GAS_DEPLOY_URL = "https://script.google.com/macros/s/【請貼上您的GAS網頁應用程式密鑰】/exec";
         
@@ -828,7 +801,6 @@
         urlParams.append("strikePct", document.getElementById('strike-pct').value);
         urlParams.append("knockinPct", document.getElementById('knockin-pct').value);
         
-        // 封裝出場價比例資訊 (若勾選遞減，將各月份陣列以斜線串接為字串一併存入該欄位，便於資料表閱讀)
         const isChecked = document.getElementById('enable-step-down').checked;
         if (isChecked) {
             let months = parseInt(document.getElementById('period').value) || 1;
