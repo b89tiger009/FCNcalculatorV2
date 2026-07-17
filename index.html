@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FCN「不成交只領息」自訂客製化試算工具</title>
     <script>
-        // 【安全防護】嚴格檢查 HTTP 來源網頁 (Referrer) 驗證機制 (同步更新至入口網站 V3)
+        // 【安全防護】嚴格檢查 HTTP 來源網頁 (Referrer) 驗證機制 (已更新至 V3)
         var allowedReferrer = "https://b89tiger009.github.io/Portal_web_encV3/";
         (function() {
             var currentReferrer = document.referrer;
@@ -194,7 +194,7 @@
             min-height: 115px;
         }
 
-        /* ─── V19.1 SVG 終極完美對齊時序流程圖 ─── */
+        /* ─── V19.3 SVG 精確銜接與穿透分流時序流程圖 ─── */
         .flow-diagram-container {
             background-color: #ffffff;
             border: 1px solid #e2e8f0;
@@ -211,12 +211,12 @@
             padding-top: 10px;
             padding-bottom: 30px;
         }
-        /* 時間軸橫向黑色主幹線 */
+        /* 🔧 橫向主幹線：往右拉長至 772px 完美對接 SVG */
         .flow-main-axis {
             position: absolute;
             top: 245px;
             left: 1%;
-            width: 825px; /* 精準延伸至第四張黑框卡片右緣 */
+            width: 772px; 
             height: 4px;
             background-color: #000000;
             z-index: 1;
@@ -266,7 +266,7 @@
         .box-ko { border: 2px solid #ff9800; margin-right: 12px; }
         .box-end { border: 2px solid #000000; margin-right: 12px; }
 
-        /* 💡 SVG 核心容器：精確對齊 viewBox 比例 */
+        /* SVG 核心區容器 */
         .flow-svg-arrow-container {
             width: 45px;
             height: 220px;
@@ -282,7 +282,7 @@
             display: block;
         }
 
-        /* 💡 右側成果容器：套用測試過的最優外邊距 (-5px)，讓線條完美黏合卡片 */
+        /* 右側成果卡片容器 */
         .flow-right-outcomes-wrapper {
             display: flex;
             flex-direction: column;
@@ -295,7 +295,6 @@
             flex-shrink: 0;
         }
 
-        /* 成果字卡樣式：完美對齊綠橘外框 */
         .outcome-card {
             background-color: #ffffff;
             border-radius: 16px;
@@ -371,7 +370,7 @@
 
 <div class="container">
     <h1>FCN「不成交只領息」自訂客製化試算工具</h1>
-    <div class="subtitle">升級 V19.1：全面擷取 75% 縮小三角形箭頭，與可能成果邊框達成像素級物理緊貼對齊</div>
+    <div class="subtitle">修正版 V19.3：完美整合主軸橫向對齊延伸與精細化分流向量端點</div>
 
     <!-- 參數輸入區 -->
     <div class="input-grid">
@@ -388,7 +387,7 @@
         <div class="form-group">
             <label for="coupon-rate">年化票息 (%)</label>
             <input type="number" id="coupon-rate" value="20" min="0" max="100" step="0.5" oninput="runAllCalculations()">
-            <div id="err-coupon" class="error-text">❌ 年化票息範圍必須介於 0 至 100 之間</div>
+            <div id="err-coupon" class="error-text">❌年化票息範圍必須介於 0 至 100 之間</div>
         </div>
         <div class="form-group">
             <label for="start-date">進場時間 (西元時間選項)</label>
@@ -435,7 +434,7 @@
         </div>
 
         <div id="step-down-panel" class="step-down-container">
-            <div class="step-down-title">📊 請手動設定第 2 個月至滿期各月份的出場價觀察比例 (%)：</div>
+            <div class="step-down-title">📊 請手動設定第 2 個月至慢期各月份的出場價觀察比例 (%)：</div>
             <div id="step-down-fields-grid" class="step-down-grid"></div>
         </div>
     </div>
@@ -475,7 +474,7 @@
         </div>
     </div>
 
-    <!-- ─── V19.1 完美擷取自對話頁面的優化向量時序圖 ─── -->
+    <!-- ─── V19.3 完美對齊與橫穿分流時序圖 ─── -->
     <div class="ticker-section-title">📊 FCN 產品架構與存續條件動態時序圖</div>
     <div class="flow-diagram-container">
         <div class="flow-timeline-wrapper">
@@ -518,7 +517,7 @@
             <div class="flow-lead-line" style="left: 726px;"></div>
             <div class="flow-axis-dot" style="left: 726px;"></div>
 
-            <!-- 🔧 擷取核心：完美植入 75% 縮小三角形箭頭，與路徑精確咬合 (X=40 剛好觸碰卡片左緣) -->
+            <!-- 🔧 擷取核心：完美植入修正後的 SVG 向量路徑與細緻三角形箭頭標記 -->
             <div class="flow-svg-arrow-container">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 45 220" preserveAspectRatio="none">
                     <defs>
@@ -526,21 +525,18 @@
                             <path d="M0,0 L5.25,2.625 L0,5.25 Z" fill="#000000" />
                         </marker>
                     </defs>
-                        <!-- 上方分支路徑 (修改後：移除了從 0 到 16 的水平段) -->
-                        <!-- 原：d="M 0,110 L 16,110 L 16,42 L 40,42" -->
-                        <path d="M 16,110 L 16,42 L 40,42" 
-                            fill="none" stroke="#000000" stroke-width="4" stroke-linejoin="miter"
-                            marker-end="url(#svg-arrow-head-small)" />
-        
-                        <!-- 下方分支路徑 (修改後：起點不變，但確認與上方對齊) -->
-                        <!-- 原：d="M 16,110 L 16,178 L 40,178" (這條不需要修改) -->
-                        <path d="M 16,110 L 16,178 L 40,178" 
-                            fill="none" stroke="#000000" stroke-width="4" stroke-linejoin="miter"
-                            marker-end="url(#svg-arrow-head-small)" />
+                    <!-- 上方分支：自主線末端起點(16,110)垂直折上並精確觸碰卡片左緣(40,42) -->
+                    <path d="M 16,110 L 16,42 L 40,42" 
+                          fill="none" stroke="#000000" stroke-width="4" stroke-linejoin="miter"
+                          marker-end="url(#svg-arrow-head-small)" />
+                    <!-- 下方分支：自起點(16,110)垂直折下並精確觸碰卡片左緣(40,178) -->
+                    <path d="M 16,110 L 16,178 L 40,178" 
+                          fill="none" stroke="#000000" stroke-width="4" stroke-linejoin="miter"
+                          marker-end="url(#svg-arrow-head-small)" />
                 </svg>
             </div>
 
-            <!-- 右端成果卡片：採用與測試頁面 1:1 對齊之高階圓角細線樣式 -->
+            <!-- 右端成果卡片 -->
             <div class="flow-right-outcomes-wrapper">
                 <div class="outcome-card border-green-outcome">
                     <span class="card-head">可能成果 1</span>
@@ -774,11 +770,11 @@
             const mOutPct = getStrikeOutPctForMonth(m);
             
             if (m === 1) {
-                tdCond.innerHTML = '<span class="badge badge-guaranteed">保證領息 (必定獲得)</span>';
+                tdCond.innerHTML = `<span style="color: #065f46; background-color: #d1fae5; padding: 4px 8px; border-radius: 4px; font-weight: bold;">保證領息 (必定獲得)</span>`;
             } else if (m < months) {
-                tdCond.innerHTML = `<span class="badge badge-conditional">標的未漲破參考價 ｜ 出場比率: ${mOutPct}%</span>`;
+                tdCond.innerHTML = `<span style="color: #1e40af; background-color: #dbeafe; padding: 4px 8px; border-radius: 4px; font-weight: bold;">標的未漲破參考價 ｜ 出場比率: ${mOutPct}%</span>`;
             } else {
-                tdCond.innerHTML = `<div class="badge badge-final">1. 標的未漲破參考價 (出場比率: ${mOutPct}%)<br>或<br>2. 跌破執行價承接股票</div>`;
+                tdCond.innerHTML = `<div style="color: #b45309; background-color: #fffbeb; padding: 6px 10px; border-radius: 4px; border: 1px solid #fef3c7; line-height: 1.5; font-weight: bold;">1. 標的未漲破參考價 (出場比率: ${mOutPct}%)<br>或<br>2. 跌破執行價承接股票</div>`;
             }
             tr.appendChild(tdCond);
             tbody.appendChild(tr);
@@ -833,7 +829,7 @@
 
     window.onload = function() {
         getFirebaseUser(); 
-        toggleStepDownPanel();
+        toggleStepDownPanel(); 
         for (let id = 1; id <= 5; id++) { updateTickerInfo(id); }
         runAllCalculations();
     };
