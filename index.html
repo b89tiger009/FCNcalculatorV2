@@ -488,84 +488,82 @@
     </div>
 
 <!-- ─── V19.1 完美擷取自對話頁面的優化向量時序圖 ─── -->
-    <div class="ticker-section-title">📊 FCN 產品架構與存續條件動態時序圖</div>
-    <div class="flow-diagram-container">
-        <div class="flow-timeline-wrapper">
-            <div class="flow-main-axis"></div>
-            
-            <div class="simple-flow-box box-start">
-                <span class="box-header" id="diag-start-title">進場時間：2026-06-28</span>
-                <div style="text-align:center; margin-bottom: 8px;">
-                    <span class="red-text-style" id="diag-val-principal">NT$ 2,000,000</span>
-                </div>
-                <div id="diag-val-ref-list" style="font-size: 11px; color: #555; line-height:1.4;"></div>
+<div class="ticker-section-title">📊 FCN 產品架構與存續條件動態時序圖</div>
+<div class="flow-diagram-container">
+    <div class="flow-timeline-wrapper">
+        <div class="flow-main-axis"></div>
+        
+        <div class="simple-flow-box box-start">
+            <span class="box-header" id="diag-start-title">進場時間：2026-06-28</span>
+            <div style="text-align:center; margin-bottom: 8px;">
+                <span class="red-text-style" id="diag-val-principal">NT$ 2,000,000</span>
             </div>
-            <div class="flow-lead-line" style="left: 105px;"></div>
-            <div class="flow-axis-dot" style="left: 105px;"></div>
+            <div id="diag-val-ref-list" style="font-size: 11px; color: #555; line-height:1.4;"></div>
+        </div>
+        <div class="flow-lead-line" style="left: 105px;"></div>
+        <div class="flow-axis-dot" style="left: 105px;"></div>
 
-            <div class="simple-flow-box box-month1">
-                <span class="box-header" style="font-size:15px; color:#111; margin-top:10px;">第一個月<br>保證領息</span>
-                <div style="text-align:center; margin-top:20px;">
-                    <span class="blue-text-style" id="diag-val-interest">NT$ 33,333</span>
-                </div>
-            </div>
-            <div class="flow-lead-line" style="left: 312px;"></div>
-            <div class="flow-axis-dot" style="left: 312px;"></div>
-
-            <div class="simple-flow-box box-ko">
-                <span class="box-header" style="font-size:16px; color:#e65100; margin-top:10px;">提前出場機制</span>
-                <div style="font-size:12px; color:#444; text-align:center; padding-top:15px;">
-                    第二個月開始的<br>每個觀察日<br>會進行比價
-                </div>
-            </div>
-            <div class="flow-lead-line" style="left: 519px;"></div>
-            <div class="flow-axis-dot" style="left: 519px;"></div>
-
-            <div class="simple-flow-box box-end">
-                <span class="box-header" id="diag-end-title" style="margin-top:15px;">期滿時間：2026-12-28</span>
-                <div style="font-size:13px; color:#222; text-align:center; padding-top:20px;">
-                    有兩種可能性
-                </div>
-            </div>
-            <div class="flow-lead-line" style="left: 726px;"></div>
-            <div class="flow-axis-dot" style="left: 726px;"></div>
-
-            <!-- 🔧 擷取核心：精確修正為雙 path 分流，雙向皆 100% 帶 75% 縮小黑色箭頭，並於 X=40 完美咬合框線 -->
-            <div class="flow-svg-arrow-container">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 45 220" preserveAspectRatio="none">
-                    <defs>
-                        <!-- 定義 75% 縮小箭頭，refX 設為 5.25 確保箭頭尖端貼齊 path 終點 -->
-                        <marker id="svg-arrow-head-small" markerWidth="5.25" markerHeight="5.25" refX="5.25" refY="2.625" orient="auto">
-                            <path d="M0,0 L5.25,2.625 L0,5.25 Z" fill="#000000" />
-                        </marker>
-                    </defs>
-                    
-                    <!-- 上半部分流：從主線出發，向上折至 42px，終點 40px 精準指到卡片外框並帶小箭頭 -->
-                    <path d="M 0,110 L 16,110 L 16,42 L 40,42" 
-                          fill="none" stroke="#000000" stroke-width="4" stroke-linejoin="miter"
-                          marker-end="url(#svg-arrow-head-small)" />
-                          
-                    <!-- 下半部分流：從分岔點出發，向下折至 178px，終點 40px 精準指到卡片外框並帶小箭頭 -->
-                    <path d="M 16,110 L 16,178 L 40,178" 
-                          fill="none" stroke="#000000" stroke-width="4" stroke-linejoin="miter"
-                          marker-end="url(#svg-arrow-head-small)" />
-                </svg>
-            </div>
-
-            <!-- 右端成果卡片：採用與測試頁面 1:1 對齊之高階圓角細線樣式 -->
-            <div class="flow-right-outcomes-wrapper">
-                <div class="outcome-card border-green-outcome">
-                    <span class="card-head">可能成果 1</span>
-                    <div style="font-size:13px;">到期日當天市值 &gt; 執行價</div>
-                </div>
-                
-                <div class="outcome-card border-orange-outcome">
-                    <span class="card-head">可能成果 2</span>
-                    <div style="font-size:13px;">到期日當天市值 &lt; 執行價</div>
-                </div>
+        <div class="simple-flow-box box-month1">
+            <span class="box-header" style="font-size:15px; color:#111; margin-top:10px;">第一個月<br>保證領息</span>
+            <div style="text-align:center; margin-top:20px;">
+                <span class="blue-text-style" id="diag-val-interest">NT$ 33,333</span>
             </div>
         </div>
+        <div class="flow-lead-line" style="left: 312px;"></div>
+        <div class="flow-axis-dot" style="left: 312px;"></div>
 
+        <div class="simple-flow-box box-ko">
+            <span class="box-header" style="font-size:16px; color:#e65100; margin-top:10px;">提前出場機制</span>
+            <div style="font-size:12px; color:#444; text-align:center; padding-top:15px;">
+                第二個月開始的<br>每個觀察日<br>會進行比價
+            </div>
+        </div>
+        <div class="flow-lead-line" style="left: 519px;"></div>
+        <div class="flow-axis-dot" style="left: 519px;"></div>
+
+        <div class="simple-flow-box box-end">
+            <span class="box-header" id="diag-end-title" style="margin-top:15px;">期滿時間：2026-12-28</span>
+            <div style="font-size:13px; color:#222; text-align:center; padding-top:20px;">
+                有兩種可能性
+            </div>
+        </div>
+        <div class="flow-lead-line" style="left: 726px;"></div>
+        <div class="flow-axis-dot" style="left: 726px;"></div>
+
+        <!-- SVG 核心區：拆分為雙 path，確保上下皆有 75% 箭頭，且在(0, 110)完美契合主軸 -->
+        <div class="flow-svg-arrow-container">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 45 220" preserveAspectRatio="none">
+                <defs>
+                    <marker id="svg-arrow-head-small" markerWidth="5.25" markerHeight="5.25" refX="5.25" refY="2.625" orient="auto">
+                        <path d="M0,0 L5.25,2.625 L0,5.25 Z" fill="#000000" />
+                    </marker>
+                </defs>
+                <!-- 上半分流路徑 -->
+                <path d="M 0,110 L 16,110 L 16,42 L 40,42" 
+                      fill="none" stroke="#000000" stroke-width="4" stroke-linejoin="miter"
+                      marker-end="url(#svg-arrow-head-small)" />
+                      
+                <!-- 下半分流路徑 -->
+                <path d="M 16,110 L 16,178 L 40,178" 
+                      fill="none" stroke="#000000" stroke-width="4" stroke-linejoin="miter"
+                      marker-end="url(#svg-arrow-head-small)" />
+            </svg>
+        </div>
+
+        <!-- 右端成果卡片 -->
+        <div class="flow-right-outcomes-wrapper">
+            <div class="outcome-card border-green-outcome">
+                <span class="card-head">可能成果 1</span>
+                <div style="font-size:13px;">到期日當天市值 &gt; 執行價</div>
+            </div>
+            
+            <div class="outcome-card border-orange-outcome">
+                <span class="card-head">可能成果 2</span>
+                <div style="font-size:13px;">到期日當天市值 &lt; 執行價</div>
+            </div>
+        </div>
+    </div>
+    
         <div class="ko-bottom-desc-area">
             <div class="ko-desc-title">提前出場機制有 2 種：</div>
             <div class="ko-desc-item">① 觀察日當天市價<span>同時高於</span>參考價 ➔ <span style="color:#2e7d32;">返還本金 + 當月配息</span></div>
