@@ -403,11 +403,11 @@
             <div id="err-trigger-out" class="error-text">❌ 出場價範圍必須介於 0 至 150 之間</div>
         </div>
 
+        <!-- 💡 修正後：移除巢狀標籤，讓 label 統一繼承全域樣式，並透過 flex 讓勾選框與文字水平齊平 -->
         <div class="form-group">
-            <label for="step-down-val">
-                <label class="checkbox-label" style="margin-left:0; font-weight:bold; color:#2c3e50; font-size:14px;">
-                    <input type="checkbox" id="enable-step-down" onchange="runAllCalculations();"> 逐月遞減(%)
-                </label>
+            <label style="display: flex; align-items: center; cursor: pointer;">
+                <input type="checkbox" id="enable-step-down" onchange="runAllCalculations();" style="margin-right: 6px; width: 16px; height: 16px; cursor: pointer;">
+                逐月遞減 (%)
             </label>
             <input type="number" id="step-down-val" value="5" min="0" max="50" step="0.5" oninput="runAllCalculations();">
         </div>
