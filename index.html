@@ -519,20 +519,26 @@
             <div class="flow-lead-line" style="left: 726px;"></div>
             <div class="flow-axis-dot" style="left: 726px;"></div>
 
-            <!-- 🔧 核心變更：SVG 畫布與主軸線完美拼合，改由主幹線(Y=110)直接向右拉出樹狀垂直分流線，兩端100%帶黑色箭頭 -->
-            <div class="flow-svg-arrow-container">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 45 220" preserveAspectRatio="none">
-                    <defs>
-                        <marker id="svg-arrow-head-v19" markerWidth="7" markerHeight="7" refX="2" refY="3.5" orient="auto">
-                            <path d="M0,0 L7,3.5 L0,7 Z" fill="#000000" />
-                        </marker>
-                    </defs>
-                    <!-- M 0,110 為主幹線完美相交接點。向右延伸後分流，頂點(42)與底點(178)指向右側字卡，雙向皆補齊箭頭 -->
-                    <path d="M 0,110 L 16,110 L 16,42 L 40,42 M 16,110 L 16,178 L 40,178" 
-                          fill="none" stroke="#000000" stroke-width="4" 
-                          marker-end="url(#svg-arrow-head-v19)" />
-                </svg>
-            </div>
+<!-- 🔧 核心變更：拆分為兩個獨立 path，確保兩端 100% 帶黑色箭頭，並於 Y=110 完美接合 -->
+<div class="flow-svg-arrow-container">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 45 220" preserveAspectRatio="none">
+        <defs>
+            <marker id="svg-arrow-head-v19" markerWidth="7" markerHeight="7" refX="2" refY="3.5" orient="auto">
+                <path d="M0,0 L7,3.5 L0,7 Z" fill="#000000" />
+            </marker>
+        </defs>
+        
+        <!-- 1. 上半部分流：自主幹線(0,110)向右延伸至(16,110)，向上折至(16,42)，再向右指出並帶箭頭 -->
+        <path d="M 0,110 L 16,110 L 16,42 L 40,42" 
+              fill="none" stroke="#000000" stroke-width="4" stroke-linejoin="miter"
+              marker-end="url(#svg-arrow-head-v19)" />
+              
+        <!-- 2. 下半部分流：自接點(16,110)向下折至(16,178)，再向右指出並帶箭頭 -->
+        <path d="M 16,110 L 16,178 L 40,178" 
+              fill="none" stroke="#000000" stroke-width="4" stroke-linejoin="miter"
+              marker-end="url(#svg-arrow-head-v19)" />
+    </svg>
+</div>
 
             <!-- 右端單色外框成果字卡區 -->
             <div class="flow-right-outcomes-wrapper">
