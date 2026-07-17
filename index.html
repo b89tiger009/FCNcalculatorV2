@@ -35,8 +35,9 @@
             margin: 0;
             padding: 20px;
         }
+        /* 🔧 修正一：將總寬度調整為符合畫面的寬度，讓下方元件與上方白框邊緣完美齊平 */
         .container {
-            max-width: 1150px;
+            max-width: 1000px;
             margin: 0 auto;
             background-color: #ffffff;
             border-radius: 12px;
@@ -56,13 +57,13 @@
             font-size: 15px;
         }
         
-/* 1. 將原本的雙欄 grid 改為三欄，自動適應寬度 */
-.input-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 👈 修改這裡：從 repeat(2, 1fr) 改為 repeat(3, 1fr) */
-    gap: 20px;
-    margin-bottom: 25px;
-}
+        /* 三欄自適應對齊網格 */
+        .input-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 25px;
+        }
         .form-group {
             display: flex;
             flex-direction: column;
@@ -87,20 +88,6 @@
             border-color: #1d72b8;
             box-shadow: 0 0 0 3px rgba(29,114,184,0.1);
         }
-        .checkbox-label {
-            display: inline-flex;
-            align-items: center;
-            font-size: 12px;
-            color: #4a5568;
-            cursor: pointer;
-            margin-left: 10px;
-            font-weight: normal;
-        }
-        .checkbox-label input {
-            margin-right: 4px;
-            width: 15px;
-            height: 15px;
-        }
         .error-text {
             color: #e53e3e;
             font-size: 12px;
@@ -108,11 +95,6 @@
             display: none;
             font-weight: bold;
         }
-
-/* 2. 移除原本用來切分半欄的 .trigger-out-row 相關樣式（直接刪除或用下方代碼覆蓋） */
-.trigger-out-row {
-    display: contents; /* 👈 修改這裡：讓內部的出場價與遞減直接參與外層的三欄網格對齊 */
-}
 
         .ticker-section-title {
             font-weight: bold;
@@ -166,7 +148,7 @@
             min-height: 115px;
         }
 
-        /* ─── SVG 精確銜接與穿透分流時序流程圖 ─── */
+        /* ─── SVG 精確銜接時序流程圖 ─── */
         .flow-diagram-container {
             background-color: #ffffff;
             border: 1px solid #e2e8f0;
@@ -183,7 +165,6 @@
             padding-top: 10px;
             padding-bottom: 30px;
         }
-        /* 橫向主幹線：往右拉長至 772px 完美對接 SVG */
         .flow-main-axis {
             position: absolute;
             top: 245px;
@@ -238,7 +219,6 @@
         .box-ko { border: 2px solid #ff9800; margin-right: 12px; }
         .box-end { border: 2px solid #000000; margin-right: 12px; }
 
-        /* SVG 核心區容器：維持物理垂直對齊 */
         .flow-svg-arrow-container {
             width: 45px;
             height: 220px;
@@ -254,7 +234,6 @@
             display: block;
         }
 
-        /* 右側成果卡片容器 */
         .flow-right-outcomes-wrapper {
             display: flex;
             flex-direction: column;
@@ -325,7 +304,6 @@
         }
         .btn-save:hover { background-color: #125999; transform: translateY(-1px); }
         
-        /* 成果報表排版 */
         .result-section { margin-top: 15px; border-top: 2px dashed #cbd5e1; padding-top: 25px; }
         .section-title { font-size: 18px; font-weight: bold; color: #0f4c81; margin-bottom: 20px; display: flex; align-items: center; gap: 8px; }
         .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 30px; }
@@ -345,28 +323,27 @@
     <h1>FCN固定配息之境外結構型商品試算工具</h1>
     <div class="subtitle">整合 Firebase 操作者驗證與 Google Apps Script 試算表直連寫入技術</div>
 
-    <!-- 參數輸入區 -->
+    <!-- 🔧 修正三：優化後的三欄輸入網格，各欄位獨立對齊不跑版 -->
     <div class="input-grid">
         <div class="form-group">
             <label for="customer-name">客戶名稱</label>
-            <input type="text" id="customer-name" value="王大同 經理" placeholder="請輸入客戶姓名" oninput="runAllCalculations()">
+            <input type="text" id="customer-name" value="王小同 經理" placeholder="請輸入客戶姓名" oninput="runAllCalculations()">
         </div>
         <div class="form-group">
             <label for="investment">投資本金 (台幣元)</label>
             <input type="number" id="investment" value="2000000" min="0" step="50000" oninput="runAllCalculations()">
             <div id="err-investment" class="error-text">❌ 投資本金不可小於 0</div>
         </div>
-
         <div class="form-group">
             <label for="coupon-rate">年化票息 (%)</label>
             <input type="number" id="coupon-rate" value="20" min="0" max="100" step="0.5" oninput="runAllCalculations()">
             <div id="err-coupon" class="error-text">❌ 年化票息範圍必須介於 0 至 100 之間</div>
         </div>
+
         <div class="form-group">
             <label for="start-date">進場時間 (西元時間選項)</label>
             <input type="date" id="start-date" value="2026-06-28" onchange="runAllCalculations()">
         </div>
-
         <div class="form-group">
             <label for="period">投資期滿時間 (月)</label>
             <select id="period" onchange="runAllCalculations();">
@@ -395,24 +372,19 @@
             <input type="number" id="knockin-pct" value="60" min="0" max="100" step="1" oninput="runAllCalculations()">
             <div id="err-knockin" class="error-text">❌ 下限價範圍必須介於 0 至 100 之間</div>
         </div>
-
-        <!-- 💡 修正後：將兩者完全獨立拆開，自然填滿三欄網格 -->
         <div class="form-group">
             <label for="trigger-out-pct">出場價 (%)</label>
             <input type="number" id="trigger-out-pct" value="100" min="0" max="150" step="1" oninput="runAllCalculations();">
             <div id="err-trigger-out" class="error-text">❌ 出場價範圍必須介於 0 至 150 之間</div>
         </div>
-
-        <!-- 💡 修正後：移除巢狀標籤，讓 label 統一繼承全域樣式，並透過 flex 讓勾選框與文字水平齊平 -->
+        
+        <!-- 🔧 修正四：完美解耦雙重標籤巢狀嵌套，根除 JS 引擎崩潰錯誤 -->
         <div class="form-group">
             <label style="display: flex; align-items: center; cursor: pointer;">
                 <input type="checkbox" id="enable-step-down" onchange="runAllCalculations();" style="margin-right: 6px; width: 16px; height: 16px; cursor: pointer;">
                 逐月遞減 (%)
             </label>
             <input type="number" id="step-down-val" value="5" min="0" max="50" step="0.5" oninput="runAllCalculations();">
-        </div>
-            </div>
-            <div id="err-trigger-out" class="error-text">❌ 出場價範圍必須介於 0 至 150 之間</div>
         </div>
     </div>
 
@@ -455,7 +427,6 @@
     <div class="ticker-section-title">📊 FCN 產品架構與存續條件動態時序圖</div>
     <div class="flow-diagram-container">
         <div class="flow-timeline-wrapper">
-            <!-- 底座黑色主幹線 (772px 直連分流器) -->
             <div class="flow-main-axis"></div>
             
             <div class="simple-flow-box box-start">
@@ -569,7 +540,6 @@
 <script>
     const FINNHUB_TOKEN = "d8vv9c1r01qp5hrm64fgd8vv9c1r01qp5hrm64g0";
 
-    // 💡 智慧公式演算法：依據固定遞減值換算指定月份的出場%
     function getStrikeOutPctForMonth(targetMonth) {
         const basePct = parseFloat(document.getElementById('trigger-out-pct').value) || 100;
         const isStepDownChecked = document.getElementById('enable-step-down').checked;
@@ -579,7 +549,6 @@
             return basePct;
         }
         if (isStepDownChecked) {
-            // 從第二個月開始，依照指定遞減值做階梯式扣減
             return Math.max(0, basePct - (targetMonth - 1) * stepDownValue);
         }
         return basePct;
@@ -641,6 +610,10 @@
             }
         }
         document.getElementById('diag-val-ref-list').innerHTML = refListHtml || "未設定標的";
+    }
+
+    function formatCurrency(num) {
+        return 'NT$ ' + Math.round(num).toLocaleString('zh-TW');
     }
 
     function calculateFutureMonthStr(baseDateStr, addedMonths) {
@@ -720,7 +693,7 @@
         }
     }
 
-    // 💡 1 & 3. 整合：實裝您的專屬密鑰網址，並擴充封裝遞減數據欄位一併傳遞
+    // 💡 修正後對接您的專屬 GAS 網頁應用程式 URL，並智慧打包欄位
     async function saveDirectToSpreadsheet() {
         const GAS_DEPLOY_URL = "https://script.google.com/macros/s/AKfycbwI3_51VfgVQHzlmoCix8XN_A6za7l3gdom1HpXjiVO9a7gqIBWsaJ8nv6Ld9tOIdqv/exec";
         
@@ -734,7 +707,6 @@
         urlParams.append("strikePct", document.getElementById('strike-pct').value);
         urlParams.append("knockinPct", document.getElementById('knockin-pct').value);
         
-        // 衍生處理：智慧型字串串接趨勢
         const isChecked = document.getElementById('enable-step-down').checked;
         if (isChecked) {
             let months = parseInt(document.getElementById('period').value) || 1;
