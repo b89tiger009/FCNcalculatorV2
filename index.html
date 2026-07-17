@@ -56,12 +56,13 @@
             font-size: 15px;
         }
         
-        .input-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-            margin-bottom: 25px;
-        }
+/* 1. 將原本的雙欄 grid 改為三欄，自動適應寬度 */
+.input-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 👈 修改這裡：從 repeat(2, 1fr) 改為 repeat(3, 1fr) */
+    gap: 20px;
+    margin-bottom: 25px;
+}
         .form-group {
             display: flex;
             flex-direction: column;
@@ -108,12 +109,10 @@
             font-weight: bold;
         }
 
-        /* 💡 新版雙欄出場價橫列佈局 */
-        .trigger-out-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-        }
+/* 2. 移除原本用來切分半欄的 .trigger-out-row 相關樣式（直接刪除或用下方代碼覆蓋） */
+.trigger-out-row {
+    display: contents; /* 👈 修改這裡：讓內部的出場價與遞減直接參與外層的三欄網格對齊 */
+}
 
         .ticker-section-title {
             font-weight: bold;
@@ -397,21 +396,21 @@
             <div id="err-knockin" class="error-text">❌ 下限價範圍必須介於 0 至 100 之間</div>
         </div>
 
-        <!-- 💡 2. 修正：一體化出場價與固定值遞減橫列 (緊隨出場價後方) -->
+        <!-- 💡 修正後：將兩者完全獨立拆開，自然填滿三欄網格 -->
         <div class="form-group">
-            <div class="trigger-out-row">
-                <div>
-                    <label for="trigger-out-pct">出場價 (%)</label>
-                    <input type="number" id="trigger-out-pct" value="100" min="0" max="150" step="1" style="width:100%;" oninput="runAllCalculations();">
-                </div>
-                <div>
-                    <label for="step-down-val">
-                        <label class="checkbox-label" style="margin-left:0; font-weight:bold; color:#2c3e50; font-size:14px;">
-                            <input type="checkbox" id="enable-step-down" onchange="runAllCalculations();"> 逐月遞減(%)
-                        </label>
-                    </label>
-                    <input type="number" id="step-down-val" value="5" min="0" max="50" step="0.5" style="width:100%;" oninput="runAllCalculations();">
-                </div>
+            <label for="trigger-out-pct">出場價 (%)</label>
+            <input type="number" id="trigger-out-pct" value="100" min="0" max="150" step="1" oninput="runAllCalculations();">
+            <div id="err-trigger-out" class="error-text">❌ 出場價範圍必須介於 0 至 150 之間</div>
+        </div>
+
+        <div class="form-group">
+            <label for="step-down-val">
+                <label class="checkbox-label" style="margin-left:0; font-weight:bold; color:#2c3e50; font-size:14px;">
+                    <input type="checkbox" id="enable-step-down" onchange="runAllCalculations();"> 逐月遞減(%)
+                </label>
+            </label>
+            <input type="number" id="step-down-val" value="5" min="0" max="50" step="0.5" oninput="runAllCalculations();">
+        </div>
             </div>
             <div id="err-trigger-out" class="error-text">❌ 出場價範圍必須介於 0 至 150 之間</div>
         </div>
