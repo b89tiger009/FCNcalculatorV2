@@ -692,10 +692,13 @@
         }
     }
 
-    // 💡 修正後對接您的專屬 GAS 網頁應用程式 URL，並智慧打包欄位
+// 💡 配合新試算表格式：傳遞基礎參數與遞減設定給 GAS 自動分月計算
     async function saveDirectToSpreadsheet() {
         const GAS_DEPLOY_URL = "https://script.google.com/macros/s/AKfycbwI3_51VfgVQHzlmoCix8XN_A6za7l3gdom1HpXjiVO9a7gqIBWsaJ8nv6Ld9tOIdqv/exec";
         
+        const isStepDownChecked = document.getElementById('enable-step-down').checked;
+        const stepDownVal = document.getElementById('step-down-val').value;
+
         const urlParams = new URLSearchParams();
         urlParams.append("currentUserEmail", currentUserEmail);
         urlParams.append("customerName", document.getElementById('customer-name').value);
@@ -706,16 +709,12 @@
         urlParams.append("strikePct", document.getElementById('strike-pct').value);
         urlParams.append("knockinPct", document.getElementById('knockin-pct').value);
         
-        const isChecked = document.getElementById('enable-step-down').checked;
-        if (isChecked) {
-            let months = parseInt(document.getElementById('period').value) || 1;
-            let arr = [];
-            for(let k = 1; k <= months; k++) { arr.push(getStrikeOutPctForMonth(k) + "%"); }
-            urlParams.append("triggerOutPct", "階梯遞減: " + arr.join(" -> "));
-        } else {
-            urlParams.append("triggerOutPct", document.getElementById('trigger-out-pct').value + "%");
-        }
+        // 傳遞出場價基礎值與遞減狀態
+        urlParams.append("triggerOutPct", document.getElementById('trigger-out-pct').value);
+        urlParams.append("isStepDown", isStepDownChecked ? "true" : "false");
+        urlParams.append("stepDownValue", stepDownVal);
         
+        // 封裝 5 檔標的代號與參考價
         for (let i = 1; i <= 5; i++) {
             urlParams.append(`t${i}_symbol`, document.getElementById(`t${i}`).value);
             urlParams.append(`t${i}_ref`, document.getElementById(`t${i}-ref`).value);
@@ -728,7 +727,7 @@
                 headers: { "Content-Type": "application/x-www-form-urlencoded" },
                 body: urlParams
             });
-            alert(`🎉 直連儲存成功！\n\n客戶名稱：${document.getElementById('customer-name').value}\n操作者：${currentUserEmail}\n數據已成功傳輸寫入您的 Google 雲端試算表中。`);
+            alert(`🎉 直連儲存成功！\n\n客戶名稱：${document.getElementById('customer-name').value}\n操作者：${currentUserEmail}\n數據與分月出場價已成功寫入新試算表中。`);
         } catch (error) {
             alert("❌ 雲端直連儲存失敗，請檢查網路連線或系統設定！");
         }
